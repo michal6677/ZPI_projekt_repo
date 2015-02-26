@@ -28,6 +28,9 @@ controller('MainCtrl',function($scope){
 
         function setCurrentCategory (category){
             $scope.currentCategory = category;
+
+            cancelCreating();
+            cancelEditing();
         }
 
         function isCurrentCategory (category){
@@ -36,8 +39,30 @@ controller('MainCtrl',function($scope){
 
         $scope.setCurrentCategory = setCurrentCategory;
 
+
         //-------------------------------------------------------------------------------------------------
-        // Tworzenie i edycja
+        // CRUD
+        //-------------------------------------------------------------------------------------------------
+
+        function resetCreateForm() {
+            $scope.newBookmark = {
+                title: '',
+                url: '',
+                category: $scope.currentCategory
+            };
+        }
+
+        function createBookmark(bookmark) {
+            bookmark.id = $scope.bookmarks.length;
+            $scope.bookmarks.push(bookmark);
+
+            resetCreateForm();
+        }
+
+        $scope.createBookmark = createBookmark;
+
+        //-------------------------------------------------------------------------------------------------
+        // CREATING AND EDITING STATES
         //-------------------------------------------------------------------------------------------------
         $scope.isCreating = false;
         $scope.isEditing = false;
@@ -45,6 +70,8 @@ controller('MainCtrl',function($scope){
         function startCreating() {
             $scope.isCreating = true;
             $scope.isEditing = false;
+
+            resetCreateForm();
         }
 
         function cancelCreating() {
