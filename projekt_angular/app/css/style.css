@@ -96,7 +96,9 @@ a:hover {
         border-right: 1px solid #7B807E;
     }
 }
-
+.ng-binding{
+    display: inline-block !important;
+}
 .main {
     padding-top: 96px;
     padding-left: 24px;

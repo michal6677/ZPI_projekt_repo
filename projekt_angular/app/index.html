@@ -10,12 +10,14 @@
   <title>My AngularJS App</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
+
 </head>
 <body ng-controller="MainCtrl">
   <!--[if lt IE 7]>
@@ -28,6 +30,7 @@
               <a href="#"><img class="logo" src="assets/img/eggly-logo.png"></a>
               <ul class="nav nav-sidebar">
                   <li ng-repeat="category in categories" ng-class="{'active':isCurrentCategory(category)}">
+                      <button type="button" ng-click="deleteCategory(category)" class="close">&times;</button>
                       <a href="#" ng-click="setCurrentCategory(category)">{{category.name}}</a>
                   </li>
               </ul>
@@ -47,7 +50,7 @@
                   </form>
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-              <div ng-class="{'active':isSelectedBookmark(bookmark.id)}" ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
+              <div ng-if="isCategory()" ng-class="{'active':isSelectedBookmark(bookmark.id)}" ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
                   <button type="button" ng-click="deleteBookmark(bookmark)" class="close">&times;</button>
                   <button type="button" ng-click="setEditedBookmark(bookmark);startEditing();"  class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
                   <a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a>
@@ -100,8 +103,10 @@
   -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
+  <script src='firebase.js'></script>
+  <script src='angularfire.min.js'></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/lodash-master/lodash.min.js"></script>
+  <script src="bower_components/lodash/lodash.min.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
   <script src="components/version/version.js"></script>

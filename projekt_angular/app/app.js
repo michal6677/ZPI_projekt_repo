@@ -1,28 +1,15 @@
 'use strict';
-
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+var app = angular.module('myApp', ['firebase']);
 
-]).
-controller('MainCtrl',function($scope){
-        $scope.categories = [
-            {"id": 0, "name": "Development"},
-            {"id": 1, "name": "Design"},
-            {"id": 2, "name": "Exercise"},
-            {"id": 3, "name": "Humor"}
-        ];
+app.controller('MainCtrl',function($scope,$firebase){
 
-        $scope.bookmarks = [
-            {"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development" },
-            {"id": 1, "title": "Egghead.io", "url": "http://angularjs.org", "category": "Development" },
-            {"id": 2, "title": "A List Apart", "url": "http://alistapart.com/", "category": "Design" },
-            {"id": 3, "title": "One Page Love", "url": "http://onepagelove.com/", "category": "Design" },
-            {"id": 4, "title": "MobilityWOD", "url": "http://www.mobilitywod.com/", "category": "Exercise" },
-            {"id": 5, "title": "Robb Wolf", "url": "http://robbwolf.com/", "category": "Exercise" },
-            {"id": 6, "title": "Senor Gif", "url": "http://memebase.cheezburger.com/senorgif", "category": "Humor" },
-            {"id": 7, "title": "Wimp", "url": "http://wimp.com", "category": "Humor" },
-            {"id": 8, "title": "Dump", "url": "http://dump.com", "category": "Humor" }
-        ];
+        var ref = new Firebase('https://sizzling-torch-1975.firebaseio.com/categories/');
+        var sync = $firebase(ref);
+        $scope.categories = sync.$asArray();
+        var ref2 = new Firebase('https://sizzling-torch-1975.firebaseio.com/bookmarks/');
+        var sync2 = $firebase(ref2);
+        $scope.bookmarks = sync2.$asArray();
 
         $scope.currentCategory = null;
 
@@ -36,8 +23,13 @@ controller('MainCtrl',function($scope){
         function isCurrentCategory (category){
            return $scope.currentCategory !== null && category.name === $scope.currentCategory.name;
         }
+        function isCategory(){
+            return $scope.currentCategory;
+        }
 
         $scope.setCurrentCategory = setCurrentCategory;
+        $scope.isCurrentCategory = isCurrentCategory;
+        $scope.isCategory = isCategory;
 
 
         //-------------------------------------------------------------------------------------------------
@@ -54,7 +46,7 @@ controller('MainCtrl',function($scope){
 
         function createBookmark(bookmark) {
             bookmark.id = $scope.bookmarks.length;
-            $scope.bookmarks.push(bookmark);
+            $scope.bookmarks.$add(bookmark);
 
             resetCreateForm();
         }
@@ -72,7 +64,7 @@ controller('MainCtrl',function($scope){
                 return b.id == bookmark.id
             });
             $scope.bookmarks[index] = bookmark;
-
+            $scope.bookmarks.$save(bookmark);
             $scope.editedBookmark = null;
             $scope.isEditing = false;
         }
@@ -86,13 +78,40 @@ controller('MainCtrl',function($scope){
         $scope.isSelectedBookmark = isSelectedBookmark;
 
         function deleteBookmark(bookmark) {
-            _.remove($scope.bookmarks, function (b) {
-                return b.id == bookmark.id;
-            });
+            $scope.bookmarks.$remove(bookmark);
         }
 
         $scope.deleteBookmark = deleteBookmark;
 
+        //-------------------------------------------------------------------------------------------------
+        // CREATING AND EDITING STATES
+        //-------------------------------------------------------------------------------------------------
+        function resetCreateCategoryForm() {
+            $scope.newCategory = {
+                name: ''
+            };
+        }
+
+        function createCategory(category) {
+            category.id = $scope.categories.length;
+            $scope.categories.$add(category);
+            $scope.currentCategory = category;
+            resetCreateCategoryForm();
+        }
+
+        function deleteCategory(category) {
+            var n = $scope.bookmarks.length;
+
+            for(var i=0; i <n; i++ ) {
+                if(category.name === $scope.bookmarks[i].category.name){
+                    $scope.bookmarks.$remove($scope.bookmarks[i]);
+                }
+            }
+            $scope.categories.$remove(category);
+        }
+
+        $scope.createCategory = createCategory;
+        $scope.deleteCategory = deleteCategory;
         //-------------------------------------------------------------------------------------------------
         // CREATING AND EDITING STATES
         //-------------------------------------------------------------------------------------------------
@@ -135,5 +154,20 @@ controller('MainCtrl',function($scope){
         $scope.shouldShowEditing = shouldShowEditing;
 
 
+        //-------------------------------------------------------------------------------------------------
+        // CREATING AND EDITING STATES
+        //-------------------------------------------------------------------------------------------------
 
-});
+        $scope.isCreatingCat = false;
+
+        function startCreatingCat() {
+            $scope.isCreatingCat = true;
+        }
+
+        function cancelCreatingCat() {
+            $scope.isCreatingCat = false;
+        }
+        $scope.startCreatingCat = startCreatingCat;
+        $scope.cancelCreatingCat = cancelCreatingCat;
+
+    });

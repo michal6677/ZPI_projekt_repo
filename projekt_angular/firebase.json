@@ -1,0 +1,9 @@
+{
+  "firebase": "sizzling-torch-1975",
+  "public": "C:\\Users\\DJ\\Desktop\\repositories\\ZPI_projekt_repo\\projekt_angular\\app",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
