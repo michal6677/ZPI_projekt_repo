@@ -1,5 +1,5 @@
 {
-  "name": "angular-seed",
+  "name": "install lodash",
   "description": "A starter project for AngularJS",
   "version": "0.0.0",
   "homepage": "https://github.com/angular/angular-seed",
@@ -11,6 +11,15 @@
     "angular-loader": "1.2.x",
     "angular-mocks": "~1.2.x",
     "html5-boilerplate": "~4.3.0",
-    "bootstrap": "~3.3.2"
-  }
+    "bootstrap": "~3.3.2",
+    "lodash-master": "~3.3.1"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
 }
