@@ -28,6 +28,13 @@ a:hover {
 
 .btn-link:hover {
     color: #5bc0de;
+
+}.btn-cat {
+    color: #51C72A;
+}
+
+.btn-link-cat:hover {
+    color: #5bc0de;
 }
 
 .sidebar a {

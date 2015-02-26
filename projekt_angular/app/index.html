@@ -31,6 +31,20 @@
                       <a href="#" ng-click="setCurrentCategory(category)">{{category.name}}</a>
                   </li>
               </ul>
+              <hr/>
+              <button type="button" class="bt btn-link btn-cat" ng-click="startCreatingCat();">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  Create Category
+              </button>
+              <!--CREATING-->
+                  <form class="create-form" ng-show="isCreatingCat" role="form" ng-submit="createCategory(newCategory)" novalidate>
+                      <div class="form-group">
+                          <label for="newCategoryName">Category Name</label>
+                          <input type="text" class="form-control" id="newCategoryName" ng-model="newCategory.name" placeholder="Enter name">
+                      </div>
+                      <button type="submit" class="btn btn-info btn-lg">Create</button>
+                      <button type="button" class="btn btn-default btn-lg pull-right" ng-click="cancelCreatingCat()">Cancel</button>
+                  </form>
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
               <div ng-class="{'active':isSelectedBookmark(bookmark.id)}" ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
