@@ -108,6 +108,7 @@ app.controller('MainCtrl',function($scope,$firebase){
                 }
             }
             $scope.categories.$remove(category);
+            $scope.currentCategory = null;
         }
 
         $scope.createCategory = createCategory;
@@ -136,6 +137,7 @@ app.controller('MainCtrl',function($scope,$firebase){
 
         function cancelEditing() {
             $scope.isEditing = false;
+            $scope.editedBookmark = null;
         }
 
         function shouldShowCreating() {

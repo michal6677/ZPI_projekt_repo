@@ -28,8 +28,12 @@ a:hover {
 
 .btn-link:hover {
     color: #5bc0de;
-
-}.btn-cat {
+}
+#title {
+    font-size: 50px;
+    font-weight: 900;
+}
+.btn-cat {
     color: #51C72A;
 }
 
@@ -105,7 +109,7 @@ a:hover {
 }
 
 .main {
-    padding-top: 96px;
+    /*padding-top: 96px;*/
     padding-left: 24px;
 }
 
